@@ -1,0 +1,298 @@
+//--------------------------------------------------------------------
+
+// Garvin Beltz
+// 09/30/2021
+// VIZA 615 - Computer Animation
+// Project 2 - Procedural Motion
+
+// This program generates a walk and trot cycle of a dog
+// based upon a supplied reference by using the Maya
+// Expression Editor.
+
+// Known issues are the transition from walk to trot.
+
+//--------------------------------------------------------------------
+
+//-------------------------------General------------------------------
+
+if (control.translateZ < 9)
+	ground.translateZ = -control.translateZ;
+
+if (control.translateZ > 9)
+	ground.translateZ = -control.translateZ * 3;
+
+//--------------------------------------------------------------------
+
+//------------------------Front Right Walk----------------------------
+
+if (control.translateZ < 8)
+{
+	$speed = -5;
+	$amp = 1;
+	$startAt = -3;
+	frontRight.rotateX = 0;
+
+	frontRight.translateZ = $amp * cos($speed * time + $startAt);
+	frontRight.translateY = $amp * sin($speed * time + $startAt);
+	if (frontRight.translateY < 0)
+		frontRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Front Right Transition----------------------------
+
+if (control.translateZ >= 8 && control.translateZ <= 10)
+{
+	$speedW = 5;
+	$speedT = 15;
+	$startAtW = -3;
+	$startAtT = -0.5;
+	$amp = 1;
+	frontRight.rotateX = 0;
+
+	$endWZ = $amp * sin($speedW * time + $startAtW);
+	$beginTZ = $amp * sin($speedT * time + $startAtT);
+
+	$endWY = $amp * cos($speedW * time + $startAtW);
+	$beginTY = $amp * cos($speedT * time + $startAtT);
+
+	// Using equation: (Current control - endWY)/(beginTZ - endWZ)
+	$trans = (control.translateZ - 8) / (10 - 8);
+
+	
+	frontRight.translateZ = $trans * $beginTZ + (1 - $trans) * $endWZ;
+	frontRight.translateY = $trans * $beginTY + (1 - $trans) * $endWY;
+	if (frontRight.translateY < 0)
+		frontRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------------
+
+//------------------------Front Right Trot----------------------------
+
+if (control.translateZ > 10)
+{
+	$speed = -15;
+	$amp = 1;
+	$startAt = -0.5;
+	frontRight.rotateX = 0;
+
+	frontRight.translateZ = $amp * cos($speed * time + $startAt);
+	frontRight.translateY = $amp * sin($speed * time + $startAt);
+	if (frontRight.translateY < 0)
+		frontRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Front Right Rotation------------------------
+
+if (frontRight.translateZ < -0.5)
+	frontRight.rotateX = 30;
+
+//--------------------------------------------------------------------
+
+//-------------------------Front Left Walk----------------------------
+
+if (control.translateZ <= 8)
+{
+	$speed = -5;
+	$amp = 1;
+	$startAt = 0;
+	frontLeft.rotateX = 0;
+
+	frontLeft.translateZ = $amp * cos($speed * time + $startAt);
+	frontLeft.translateY = $amp * sin($speed * time + $startAt);
+	if (frontLeft.translateY < 0)
+		frontLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Front Left Transition----------------------------
+
+if (control.translateZ >= 8 && control.translateZ <= 10)
+{
+	$speedW = 5;
+	$speedT = 15;
+	$startAtW = 0;
+	$startAtT = -4;
+	$amp = 1;
+	frontLeft.rotateX = 0;
+
+	$endWZ = $amp * sin($speedW * time + $startAtW);
+	$beginTZ = $amp * sin($speedT * time + $startAtT);
+
+	$endWY = $amp * cos($speedW * time + $startAtW);
+	$beginTY = $amp * cos($speedT * time + $startAtT);
+
+	$trans = (control.translateZ - 8) / (10 - 8);
+	
+	frontLeft.translateZ = $trans * $beginTZ + (1 - $trans) * $endWZ;
+	frontLeft.translateY = $trans * $beginTY + (1 - $trans) * $endWY;
+	if (frontLeft.translateY < 0)
+		frontLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------------
+
+//-------------------------Front Left Trot----------------------------
+
+if (control.translateZ >= 10)
+{
+	$speed = -15;
+	$amp = 1;
+	$startAt = -4;
+	frontLeft.rotateX = 0;
+
+	frontLeft.translateZ = $amp * cos($speed * time + $startAt);
+	frontLeft.translateY = $amp * sin($speed * time + $startAt);
+	if (frontLeft.translateY < 0)
+		frontLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Front Left Rotation------------------------
+
+if (frontLeft.translateZ < -0.5)
+	frontLeft.rotateX = 30;
+
+//--------------------------------------------------------------------
+
+//------------------------Back Right Walk-----------------------------
+
+if (control.translateZ <= 8)
+{
+	$speed = -5;
+	$amp = 1;
+	$startAt = -4;
+	backRight.rotateX = 0;
+
+	backRight.translateZ = $amp * cos($speed * time + $startAt);
+	backRight.translateY = $amp * sin($speed * time + $startAt);
+	if (backRight.translateY < 0)
+		backRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Back Right Transition----------------------------
+
+if (control.translateZ >= 8 && control.translateZ <= 10)
+{
+	$speedW = 5;
+	$speedT = 15;
+	$startAtW = -4;
+	$startAtT = -4;
+	$amp = 1;
+	backRight.rotateX = 0;
+
+	$endWZ = $amp * sin($speedW * time + $startAtW);
+	$beginTZ = $amp * sin($speedT * time + $startAtT);
+
+	$endWY = $amp * cos($speedW * time + $startAtW);
+	$beginTY = $amp * cos($speedT * time + $startAtT);
+
+	$trans = (control.translateZ - 8) / (10 - 8);
+	
+	backRight.translateZ = $trans * $beginTZ + (1 - $trans) * $endWZ;
+	backRight.translateY = $trans * $beginTY + (1 - $trans) * $endWY;
+	if (backRight.translateY < 0)
+		backRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------------
+
+//------------------------Back Right Trot-----------------------------
+
+if (control.translateZ >= 10)
+{
+	$speed = -15;
+	$amp = 1;
+	$startAt = -4;
+	backRight.rotateX = 0;
+
+	backRight.translateZ = $amp * cos($speed * time + $startAt);
+	backRight.translateY = $amp * sin($speed * time + $startAt);
+	if (backRight.translateY < 0)
+		backRight.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Back Right Rotation------------------------
+
+if (backRight.translateZ < -0.5)
+	backRight.rotateX = 30;
+
+//--------------------------------------------------------------------
+
+//------------------------Back Left Walk------------------------------
+
+if (control.translateZ <= 8)
+{
+	$speed = -5;
+	$amp = 1;
+	$startAt = -0.5;
+	backLeft.rotateX = 0;
+
+	backLeft.translateZ = $amp * cos($speed * time + $startAt);
+	backLeft.translateY = $amp * sin($speed * time + $startAt);
+	if (backLeft.translateY < 0)
+		backLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Back Left Transition----------------------------
+
+if (control.translateZ >= 8 && control.translateZ <= 10)
+{
+	$speedW = 5;
+	$speedT = 15;
+	$startAtW = -0.5;
+	$startAtT = -0.5;
+	$amp = 1;
+	backLeft.rotateX = 0;
+
+	$endWZ = $amp * sin($speedW * time + $startAtW);
+	$beginTZ = $amp * sin($speedT * time + $startAtT);
+
+	$endWY = $amp * cos($speedW * time + $startAtW);
+	$beginTY = $amp * cos($speedT * time + $startAtT);
+
+	$trans = (control.translateZ - 8) / (10 - 8);
+	
+	backLeft.translateZ = $trans * $beginTZ + (1 - $trans) * $endWZ;
+	backLeft.translateY = $trans * $beginTY + (1 - $trans) * $endWY;
+	if (backLeft.translateY < 0)
+		backLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------------
+
+//------------------------Back Left Trot------------------------------
+
+if (control.translateZ >= 10)
+{
+	$speed = -15;
+	$amp = 1;
+	$startAt = -0.5;
+	backLeft.rotateX = 0;
+
+	backLeft.translateZ = $amp * cos($speed * time + $startAt);
+	backLeft.translateY = $amp * sin($speed * time + $startAt);
+	if (backLeft.translateY < 0)
+		backLeft.translateY = 0;
+}
+
+//--------------------------------------------------------------------
+
+//------------------------Back Left Rotation------------------------
+
+if (backLeft.translateZ < -0.5)
+	backLeft.rotateX = 30;
+
+//--------------------------------------------------------------------
